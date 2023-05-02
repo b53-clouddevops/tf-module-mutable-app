@@ -8,7 +8,6 @@ data "terraform_remote_state" "vpc" {
    }
 }
 
-
 # Retrieves the information from the remote vpc alb file
 data "terraform_remote_state" "alb" {
   backend = "s3"
