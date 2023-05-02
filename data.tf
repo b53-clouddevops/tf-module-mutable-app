@@ -19,7 +19,7 @@ data "terraform_remote_state" "alb" {
 }
 
 # Fetches the information of the LAB AMI
-data "aws_ami" "my_ami" {
+data "aws_ami" "ami" {
   most_recent      = true
   name_regex       = "Lab-Ami-With-Ansible_Installed"
   owners           = ["self"] 
