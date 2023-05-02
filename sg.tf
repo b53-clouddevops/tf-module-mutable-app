@@ -1,15 +1,23 @@
 # Creates Security Group
 resource "aws_security_group" "allow_app" {
-  name        = "robot-${var.COMPONENT}-${var.ENV}-sg"
-  description = "robot-${var.COMPONENT}-${var.ENV}-sg"
-  vpc_id      = 
+  name          = "robot-${var.COMPONENT}-${var.ENV}-sg"
+  description   = "robot-${var.COMPONENT}-${var.ENV}-sg"
+  vpc_id        = data.terraform_remote_state.vpc.outputs.VPC_ID
 
   ingress {
-    description      = "SSH from VPC"
+    description      = "Application Port"
+    from_port        = var.APP_PORT
+    to_port          = var.APP_PORT
+    protocol         = "tcp"
+    cidr_blocks      = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
+  }
+
+  ingress {
+    description      = "SSH PORT"
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
   }
 
   egress {
@@ -20,6 +28,6 @@ resource "aws_security_group" "allow_app" {
   }
 
   tags = {
-    Name = "b53_allow_ssh_secgrp"
+    Name = "robot-${var.COMPONENT}-${var.ENV}-sg"
   }
 }
