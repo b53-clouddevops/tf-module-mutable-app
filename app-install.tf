@@ -11,7 +11,7 @@ resource "null_resource" {
       }
 
     inline = [
-        "ansible-pull -U https://github.com/b53-clouddevops/ansible.git robot-pull.yml -e ENV=dev -e COMPONENT=mongodb"
+        "ansible-pull -U https://github.com/b53-clouddevops/ansible.git robot-pull.yml -e ENV=${var.ENV} -e COMPONENT=${var.COMPONENT} -e VERSION=${var.APP_VERSION}"
     ]
   }
 } 
