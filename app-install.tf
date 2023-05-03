@@ -7,7 +7,7 @@ resource "null_resource" {
         type     = "ssh"
         user     = "centos"
         password = "DevOps321"
-        host     =    
+        host     = element(local.INSTANCE_IPS, count.index)   
       }
 
     inline = [

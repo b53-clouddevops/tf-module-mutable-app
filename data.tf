@@ -25,3 +25,11 @@ data "aws_ami" "ami" {
   owners           = ["self"] 
 }
 
+# Fetches the metadata and the version of the secret
+data "aws_secretsmanager_secret" "secrets" {
+   name   =  "roboshop/secrets"
+}
+
+data "aws_secretsmanager_secret_version" "secrets" {
+  secret_id     = data.aws_secretsmanager_secret.secrets.id
+}
