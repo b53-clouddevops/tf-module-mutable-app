@@ -25,7 +25,7 @@ resource "aws_instance" "od" {
 # Creates Tags 
 resource "aws_ec2_tag" "ec2_tags" {
   count       = var.OD_INSTANCE_COUNT + var.SPOT_INSTANCE_COUNT
-  resource_id = local.INSTANCE_IDS
+  resource_id = element(local.INSTANCE_IDS, count.index)
   key         = "Name"
   value       = "${var.COMPONENT}-${var.ENV}"
 }
