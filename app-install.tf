@@ -1,7 +1,6 @@
 resource "null_resource" "app" {
 #    triggers      = {  ver = var.APP_VERSION}  // Whenever these is a change in the versio only during that time it will run.
-   triggers     = {  always = true }  // Whenever these is a change in the versio only during that time it will run.
-   
+   triggers     = {  always = true }            // This will run all the time.  
    count        = var.SPOT_INSTANCE_COUNT  + var.OD_INSTANCE_COUNT  
 
 # Declaring the remote provisioner inside the resource
