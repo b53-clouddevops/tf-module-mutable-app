@@ -1,4 +1,7 @@
 resource "null_resource" "app" {
+#    triggers      = {  ver = var.APP_VERSION}  // Whenever these is a change in the versio only during that time it will run.
+   triggers     = {  always = true }  // Whenever these is a change in the versio only during that time it will run.
+   
    count        = var.SPOT_INSTANCE_COUNT  + var.OD_INSTANCE_COUNT  
 
 # Declaring the remote provisioner inside the resource
@@ -15,3 +18,6 @@ resource "null_resource" "app" {
         ]
     }
 } 
+
+# Provisioners are create time by default, which means they only run during the infrastructure creation or if the provisioner is a failure in the previous run.
+# In our case, if you've deployed 0.0.4 and wish to upgrade to 0.0.5, it won't run nor it work work.
