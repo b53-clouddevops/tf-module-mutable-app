@@ -4,7 +4,7 @@ resource "aws_route53_record" "record" {
   name    = "${var.COMPONENT}-${var.ENV}.${data.terraform_remote_state.vpc.outputs.PRIVATE_HOSTED_ZONE_NAME}"
   type    = "CNAME"
   ttl     = 10
-  records = [Private Load Balancer Address]
+  records = [data.terraform_remote_state.alb.outputs.PRIVATE_ALB_ADDRESS]
 }
 
 # A Record     : Creating Name to an IP Address
