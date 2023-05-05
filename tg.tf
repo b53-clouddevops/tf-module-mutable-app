@@ -15,8 +15,10 @@ resource "aws_lb_target_group_attachment" "attach_instances" {
 }
 
 
-# Adds a rule inside the listener 
+# Adds a rule inside the listener  ( private )
 resource "aws_lb_listener_rule" "app_rule" {
+  count        =  var.LB_TYPE == "internal" ? 1 : 0
+
   listener_arn = data.terraform_remote_state.alb.outputs.PRIVATE_LISTENER_ARN
   priority     = random_integer.priority.result
 
@@ -36,4 +38,20 @@ resource "aws_lb_listener_rule" "app_rule" {
 resource "random_integer" "priority" {
   min = 101
   max = 500
+}
+
+
+# Public ALB Listerner
+# Creates a listener to the target group
+resource "aws_lb_listener" "public" {
+  count             = var.INTERNAL ? 0 : 1  
+
+  load_balancer_arn = data.terraform_remote_state.alb.outputs.PUBLIC_LISTENER_ARN
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
+  }
 }
