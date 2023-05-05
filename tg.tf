@@ -44,7 +44,7 @@ resource "random_integer" "priority" {
 # Public ALB Listerner
 # Creates a listener to the target group
 resource "aws_lb_listener" "public" {
-  count             = var.INTERNAL ? 0 : 1  
+  count             = var.LB_TYPE ? 0 : 1  
 
   load_balancer_arn = data.terraform_remote_state.alb.outputs.PUBLIC_LISTENER_ARN
   port              = "80"
