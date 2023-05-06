@@ -4,6 +4,14 @@ resource "aws_lb_target_group" "app" {
   port              = 8080
   protocol          = "HTTP"
   vpc_id            = data.terraform_remote_state.vpc.outputs.VPC_ID
+
+  health_check {
+    interval            = 5
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    path                = "/health"
+  }
 }
 
 # Attaches the component instances to the component target group.
