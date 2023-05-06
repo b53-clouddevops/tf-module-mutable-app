@@ -18,6 +18,16 @@ data "terraform_remote_state" "alb" {
    }
 }
 
+# Retrieves the information from the remote DB file
+data "terraform_remote_state" "db" {
+  backend = "s3"
+  config = {
+    bucket = "b53-tfstate-bucket"
+    key    = "databases/${var.ENV}/terraform.tfstate"
+    region = "us-east-1"
+   }
+}
+
 # Fetches the information of the LAB AMI
 data "aws_ami" "ami" {
   most_recent      = true
